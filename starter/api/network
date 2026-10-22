@@ -1,0 +1,5 @@
+docker network create taskflow_net
+
+docker run -e POSTGRES_PASSWORD=taskflow -e POSTGRES_USER=taskflow -e POSTGRES_DB=taskflow --network taskflow-net --name db-taskflow -d postgres:16
+
+docker run --network taskflow-net -e DATABASE_URL=postgres://taskflow:taskflow@db-taskflow:5432/taskflow taskflow-api:latest 
