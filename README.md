@@ -1,3 +1,5 @@
+[![CI](https://github.com/MaxDvld/fil-rouge-taskflow/actions/workflows/ci.yml/badge.svg)](https://github.com/MaxDvld/fil-rouge-taskflow/actions)
+
 # Fil rouge : TaskFlow
 
 > **Quand** : du jour 2 au jour 4 | **Format** : individuel (avec un binôme pour les revues de code)
@@ -247,3 +249,4 @@ Le but est d'avancer **et** de comprendre. Si vous êtes bloqué plus de 15 minu
 
 > Copier n'est pas tricher si vous comprenez ce que vous copiez : en entreprise, on part très souvent d'un fichier
 > existant. Le formateur vous posera des questions sur chaque ligne lors de la validation.
+
