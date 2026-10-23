@@ -91,3 +91,7 @@ DATABASE_URL=postgres://taskflow:taskflow@localhost:5432/taskflow npm run test:i
 
 L'API écrit **une ligne JSON par requête** sur sa sortie standard (`method`, `path`,
 `status`, `ms`) : vous les retrouverez avec `docker logs` plus tard.
+
+[![CI](https://github.com/MaxDvld/fil-rouge-taskflow/actions/workflows/ci.yml/badge.svg)](https://github.com/MaxDvld/fil-rouge-taskflow/actions)
+
+
