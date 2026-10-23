@@ -1,21 +1,44 @@
-name: CI                               # nom affiché dans l'onglet Actions et sur la PR
+# Nom du workflow, affiché dans l'onglet Actions et sur les PR
+name: CI
 
+# Événements qui déclenchent le workflow
 on:
-  pull_request:                        # vérifier chaque PR, avant le merge
+  pull_request:              # à chaque PR : on vérifie le code avant de le fusionner
   push:
-    branches: [main]                   # revérifier main après chaque merge
+    branches: [main]         # après chaque push sur main : on revérifie
 
-jobs:  
+# Deux jobs, sans "needs" : ils tournent en parallèle
+jobs:
 
- front:
-    runs-on: ubuntu-latest
+  # ---------- Job 1 : vérification du frontend ----------
+  front:
+    runs-on: ubuntu-latest                     # machine Linux fournie par GitHub
     defaults:
-      run: { working-directory: starter/front }    # chaque `run:` s'exécute dans front/
+      run: { working-directory: starter/front }
+                                               # toutes les commandes "run" s'exécutent dans starter/front/
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4        # installe Node.js sur le runner
+      - uses: actions/checkout@v4              # télécharge le dépôt sur le runner (sinon il est vide)
+      - uses: actions/setup-node@v4            # installe Node.js sur le runner
         with: { node-version: 20, cache: npm, cache-dependency-path: starter/front/package-lock.json }
-      - run: npm ci                        # installation exacte depuis package-lock.json
-      - run: npm run lint && npm run format:check   # ESLint puis Prettier (formatage)
-      - run: npm test                      # Vitest, fetch mocké
-      - run: npm run build                 # Vite → dist/                                 # api et front en parallèle (+ un 3e job, voir plus loin)
+                                               # Node 20 + cache des dépendances npm,
+                                               # calculé à partir du package-lock.json du front
+      - run: npm ci                            # installe les dépendances exactement comme dans package-lock.json
+      - run: npm run lint && npm run format:check
+                                               # ESLint (qualité du code), puis Prettier (formatage)
+                                               # le && stoppe tout si le lint échoue
+      - run: npm test                          # lance les tests du front
+      - run: npm run build                     # construit la version finale du front
+
+  # ---------- Job 2 : vérification de l'API ----------
+  api:
+    runs-on: ubuntu-latest                     # un runner séparé, indépendant de celui du front
+    defaults:
+      run: { working-directory: starter/api }  # commandes exécutées dans starter/api/
+    steps:
+      - uses: actions/checkout@v4              # chaque job repart d'une machine vide : il faut refaire le checkout
+      - uses: actions/setup-node@v4            # idem : Node doit être réinstallé pour ce job
+        with: { node-version: 20, cache: npm, cache-dependency-path: starter/api/package-lock.json }
+      - run: npm ci                            # dépendances de l'API
+      - run: npm run lint && npm run format:check
+                                               # mêmes vérifications que pour le front
+      - run: npm test                          # tests de l'API (pas de build ici)
