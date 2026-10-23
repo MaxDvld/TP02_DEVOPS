@@ -1,0 +1,8 @@
+name: CI                               # nom affiché dans l'onglet Actions et sur la PR
+
+on:
+  pull_request:                        # vérifier chaque PR, avant le merge
+  push:
+    branches: [main]                   # revérifier main après chaque merge
+
+jobs:                                  # api et front en parallèle (+ un 3e job, voir plus loin)
