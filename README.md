@@ -1,4 +1,4 @@
-[![CI](https://github.com/MaxDvld/fil-rouge-taskflow/actions/workflows/ci.yml/badge.svg)](https://github.com/MaxDvld/fil-rouge-taskflow/actions)
+[![CI](https://github.com/MaxDvld/TP02_DEVOPS/actions/workflows/ci.yaml/badge.svg)](https://github.com/MaxDvld/TP02_DEVOPS/actions)
 
 # Fil rouge : TaskFlow
 
