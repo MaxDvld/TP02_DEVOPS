@@ -1,28 +1,12 @@
-# Nom du workflow, affiché dans l'onglet Actions de GitHub
-name: Hello
-
-# Événements qui déclenchent le workflow
+name: Hello                                  # nom affiché dans l'onglet Actions
 on:
-  push:                  # à chaque push...
-    branches: [main]     # ...mais seulement sur la branche main
-  workflow_dispatch:     # permet aussi de le lancer à la main (bouton "Run workflow")
-
-# Liste des jobs (ici un seul, nommé "hello")
+  push:                                      # à chaque push, toutes branches
+  workflow_dispatch:                         # + bouton manuel
 jobs:
-  hello:
-    # Le runner : machine Linux Ubuntu fournie par GitHub
-    runs-on: ubuntu-latest
-
-    # Les étapes du job, exécutées dans l'ordre
+  dire-bonjour:                              # identifiant du job (libre)
+    runs-on: ubuntu-latest                   # runner hébergé par GitHub
     steps:
-      # Action réutilisable : télécharge ton dépôt sur le runner
-      # (sans elle, la machine est vide et ne voit pas tes fichiers)
-      - uses: actions/checkout@v4
-
-      # Step avec une commande : "name" est le titre affiché dans les logs
-      - name: Dire bonjour
-        run: echo "Bonjour depuis GitHub Actions"   # affiche le texte dans les logs
-
-      # Autre commande : liste les fichiers du dépôt (récupérés grâce au checkout)
-      - name: Lister les fichiers
-        run: ls -la   # -l : format détaillé, -a : inclut les fichiers cachés
+      - uses: actions/checkout@v4            # récupère le code du dépôt sur le runner
+      - name: Saluer                         # nom lisible du step
+        run: echo "Bonjour depuis ${{ github.repository }} (${{ github.ref_name }})"
+      - run: ls -la                          # le code est bien là
