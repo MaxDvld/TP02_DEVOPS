@@ -10,7 +10,7 @@ jobs:
  front:
     runs-on: ubuntu-latest
     defaults:
-      run: { working-directory: front }    # chaque `run:` s'exécute dans front/
+      run: { working-directory: starter/front }    # chaque `run:` s'exécute dans front/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4        # installe Node.js sur le runner
